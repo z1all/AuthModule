@@ -43,43 +43,55 @@ namespace AuthModule.Client.Services
         {
             TcpHandler((stream) =>
             {
-                AuthAndGetSecretMessage(stream);
+                bool isAuthenticated = Auth(stream);
+                if (!isAuthenticated) return;
+
+                GetSecretMessage(stream);
             }, "GetSecretMessage");
         }
 
-        private void AuthAndGetSecretMessage(NetworkStream stream)
+        private bool Auth(NetworkStream stream)
         {
-            byte[] data = new byte[1024];
-
             Keys keys = _keysStore.GetKeys();
 
             byte[] publicKeyBytes = Encoding.UTF8.GetBytes(keys.PublicKey);
             stream.Write(publicKeyBytes, 0, publicKeyBytes.Length);
 
+            int sendKeyStatus = stream.ReadByte();
+            if (sendKeyStatus == 1)
+            {
+                Console.WriteLine("Аутентификация провалилась. На сервере отсутствует текущий публичный ключ.");
+                return false;
+            }
+
+            byte[] data = new byte[1024];
             int encryptMassageLength = stream.Read(data, 0, data.Length);
             byte[] encryptMassageBytes = new byte[encryptMassageLength];
             Array.Copy(data, encryptMassageBytes, encryptMassageBytes.Length);
-            if (encryptMassageLength == 1 && data[0] == 1)
-            {
-                Console.WriteLine("Аутентификация провалилась. На сервере отсутствует текущий публичный ключ.");
-                return;
-            }
 
             byte[] decryptMassageBytes = _cryptoService.Decrypt(keys.PrivateKey, encryptMassageBytes);
             stream.Write(decryptMassageBytes, 0, decryptMassageBytes.Length);
 
-            int dataLength = stream.Read(data, 0, data.Length);
-            if (dataLength == 1 && data[0] == 1)
+            int authStatus = stream.ReadByte();
+            if (authStatus == 1)
             {
                 Console.WriteLine("Аутентификация провалилась. Неверный закрытый ключ.");
+                return false;
             }
             else
             {
-                string secretMessage = Encoding.UTF8.GetString(data, 0, dataLength);
-
                 Console.WriteLine("Успешная аутентификация.");
-                Console.WriteLine($"Секретное сообщение: '{secretMessage}'.");
+                return true;
             }
+        }
+
+        private void GetSecretMessage(NetworkStream stream)
+        {
+            byte[] data = new byte[1024];
+            int dataLength = stream.Read(data, 0, data.Length);
+            string secretMessage = Encoding.UTF8.GetString(data, 0, dataLength);
+
+            Console.WriteLine($"Секретное сообщение: '{secretMessage}'.");
         }
 
         private void UserNameAndPasswordAuth(NetworkStream stream)

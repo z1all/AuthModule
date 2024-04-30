@@ -135,8 +135,11 @@ namespace AuthModule.Server.Services
                 SendFail(stream);
                 return false;
             }
-
-            return true;
+            else
+            {
+                SendSuccess(stream);
+                return true;
+            }
         }
 
         private bool CheckUserOnRandomMessage(NetworkStream stream, string publicKey)
@@ -155,8 +158,11 @@ namespace AuthModule.Server.Services
                 SendFail(stream);
                 return false;
             }
-
-            return true;
+            else
+            {
+                SendSuccess(stream);
+                return true;
+            }
         }
 
         private void SendSecretMessage(NetworkStream stream)
