@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CryptoModule\CryptoModule.csproj" />
+    <ProjectReference Include="..\NetworkStream.Extension\System.Net.Sockets.Extension.csproj" />
   </ItemGroup>
 
   <ItemGroup>

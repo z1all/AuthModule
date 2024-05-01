@@ -5,11 +5,11 @@ namespace AuthModule.Client
 {
     internal class Client
     {
-        private readonly HandlerService _handlerService;
+        private readonly HandlerClientService _handlerService;
 
         private bool _work = true;
 
-        public Client(HandlerService handlerService)
+        public Client(HandlerClientService handlerService)
         {
             _handlerService = handlerService;
         }

@@ -1,15 +1,25 @@
-﻿using System.Net.Sockets;
-using System.Text;
+﻿using System.Text;
 
-namespace AuthModule.Server.Helpers
+namespace System.Net.Sockets.Extension
 {
-    internal static class NetworkStreamHelper
+    public static class NetworkStreamExtensions
     {
-        public static string ReadString(this NetworkStream stream, int byteCount)
+        public static string ReadString(this NetworkStream stream, int reserveByteCount)
         {
-            byte[] data = new byte[byteCount];
+            byte[] data = new byte[reserveByteCount];
             int dataLength = stream.Read(data, 0, data.Length);
             return Encoding.UTF8.GetString(data, 0, dataLength);
+        }
+
+        public static byte[] ReadBytes(this NetworkStream stream, int reserveByteCount)
+        {
+            byte[] data = new byte[reserveByteCount];
+            int dataLength = stream.Read(data, 0, data.Length);
+
+            byte[] trimmedData = new byte[dataLength];
+            Array.Copy(data, trimmedData, trimmedData.Length);
+
+            return trimmedData;
         }
 
         public static void WriteString(this NetworkStream stream, string str)
@@ -22,6 +32,7 @@ namespace AuthModule.Server.Helpers
         {
             stream.Write(bytes, 0, bytes.Length);
         }
+
 
         public static bool SendSuccess(this NetworkStream stream) { stream.WriteByte(0); return true; }
 

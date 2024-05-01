@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using AuthModule.Client.Configurations;
 using AuthModule.Client.Services;
 using AuthModule.Client.Stores;
+using AuthModule.Client.Services.Interfaces;
 using CryptoModule;
 
 namespace AuthModule.Client
@@ -23,9 +24,14 @@ namespace AuthModule.Client
 
         private static void AddServices(this IServiceCollection services)
         {
-            services.AddSingleton<HandlerService>();
             services.AddSingleton<Client>();
+            services.AddSingleton<HandlerClientService>();
+            services.AddSingleton<IAuthHandlerService, AuthHandlerService>();
+            services.AddSingleton<IPublicKeyHandlerService, PublicKeyHandlerService>();
+
+            services.AddSingleton<IAuthClientService, AuthClientService>();
             services.AddSingleton<IKeysStore, FileKeysStore>();
+
             services.AddCryptoService();
         }
 

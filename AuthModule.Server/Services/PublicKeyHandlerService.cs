@@ -1,6 +1,6 @@
-﻿using AuthModule.Server.Helpers;
-using AuthModule.Server.Services.Interfaces;
+﻿using System.Net.Sockets.Extension;
 using System.Net.Sockets;
+using AuthModule.Server.Services.Interfaces;
 
 namespace AuthModule.Server.Services
 {
