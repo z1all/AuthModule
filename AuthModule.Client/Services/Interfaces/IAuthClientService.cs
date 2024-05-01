@@ -4,8 +4,9 @@ namespace AuthModule.Client.Services.Interfaces
 {
     internal interface IAuthClientService
     {
-        Keys GetNewKeys();
+        Keys GetNewKeys(string? passphrase);
         string GetCurrentPublicKey();
-        byte[] DecryptRandomMessage(byte[] encryptMassageBytes);
+        bool TryGetCurrentPrivateKey(string? passphrase, out string privateKey);
+        byte[] DecryptRandomMessage(string privateKey, byte[] encryptMassageBytes);
     }
 }

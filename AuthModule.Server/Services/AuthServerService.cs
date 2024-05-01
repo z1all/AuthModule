@@ -1,8 +1,8 @@
-﻿using AuthModule.Server.Helpers;
+﻿using System.Text;
+using AuthModule.Server.Helpers;
 using AuthModule.Server.Services.Interfaces;
 using AuthModule.Server.Stores;
-using CryptoModule;
-using System.Text;
+using CryptoModule.Interfaces;
 
 namespace AuthModule.Server.Services
 {
@@ -10,9 +10,9 @@ namespace AuthModule.Server.Services
     {
         private readonly IKeysStore _fileKeysStore;
         private readonly IProfileStore _profileStore;
-        private readonly ICryptoService _cryptoService;
+        private readonly IAsymmetricCryptoService _cryptoService;
 
-        public AuthServerService(IKeysStore fileKeysStore, IProfileStore profileStore, ICryptoService cryptoService)
+        public AuthServerService(IKeysStore fileKeysStore, IProfileStore profileStore, IAsymmetricCryptoService cryptoService)
         {
             _fileKeysStore = fileKeysStore;
             _profileStore = profileStore;

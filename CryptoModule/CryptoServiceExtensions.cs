@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using CryptoModule.Interfaces;
+using CryptoModule.Services;
 
 namespace CryptoModule
 {
@@ -6,7 +8,8 @@ namespace CryptoModule
     {
         public static void AddCryptoService(this IServiceCollection services)
         {
-            services.AddSingleton<ICryptoService, RSACryptoService>();
+            services.AddSingleton<IAsymmetricCryptoService, RSACryptoService>();
+            services.AddSingleton<ISymmetricCryptoService, AesCryptoService>();
         }
     }
 }

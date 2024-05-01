@@ -13,7 +13,10 @@ namespace AuthModule.Client.Services
 
         public Keys GetNewKeys()
         {
-            return _authClientService.GetNewKeys();
+            Console.WriteLine("Введите passphrase для шифрования приватного ключа:");
+            string? passphrase = Console.ReadLine();
+
+            return _authClientService.GetNewKeys(passphrase);
         }
 
         public void SendPublicKey(NetworkStream stream)

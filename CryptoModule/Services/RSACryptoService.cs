@@ -1,13 +1,14 @@
 ﻿using System.Security.Cryptography;
+using CryptoModule.Interfaces;
 
-namespace CryptoModule
+namespace CryptoModule.Services
 {
-    public class RSACryptoService : ICryptoService
+    public class RSACryptoService : IAsymmetricCryptoService
     {
         public byte[] Decrypt(string privateKey, byte[] data)
         {
             using RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();
-            
+
             rsa.ImportFromPem(privateKey);
 
             return rsa.Decrypt(data, false);
@@ -18,7 +19,7 @@ namespace CryptoModule
             var keySize = 768;
 
             using RSACryptoServiceProvider rsa = new RSACryptoServiceProvider(keySize);
-           
+
             rsa.ImportFromPem(publicKey);
             return rsa.Encrypt(data, false);
         }

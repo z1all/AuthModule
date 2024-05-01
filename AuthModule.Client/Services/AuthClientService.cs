@@ -1,20 +1,25 @@
 ﻿using AuthModule.Client.Services.Interfaces;
 using AuthModule.Client.Stores;
 using CryptoModule;
+using CryptoModule.Interfaces;
 
 namespace AuthModule.Client.Services
 {
     internal class AuthClientService(
         IKeysStore keysStore, 
-        ICryptoService cryptoService
+        IAsymmetricCryptoService cryptoService,
+        ISymmetricCryptoService symmetricCryptoService
     ) : IAuthClientService
     {
         private readonly IKeysStore _keysStore = keysStore;
-        private readonly ICryptoService _cryptoService = cryptoService;
+        private readonly IAsymmetricCryptoService _cryptoService = cryptoService;
+        private readonly ISymmetricCryptoService _symmetricCryptoService = symmetricCryptoService;
 
-        public Keys GetNewKeys()
+        public Keys GetNewKeys(string? passphrase)
         {
             Keys newKeys = _cryptoService.MakeKeysPair();
+
+            newKeys.PrivateKey = _symmetricCryptoService.Encrypt(newKeys.PrivateKey, passphrase);
 
             _keysStore.SaveKeys(newKeys);
 
@@ -26,11 +31,14 @@ namespace AuthModule.Client.Services
             return _keysStore.GetKeys().PublicKey;
         }
 
-        public byte[] DecryptRandomMessage(byte[] encryptMassageBytes)
+        public bool TryGetCurrentPrivateKey(string? passphrase, out string privateKey)
         {
-            Keys keys = _keysStore.GetKeys();
+            return _symmetricCryptoService.TryDecrypt(_keysStore.GetKeys().PrivateKey, passphrase, out privateKey);
+        }
 
-            byte[] decryptMassageBytes = _cryptoService.Decrypt(keys.PrivateKey, encryptMassageBytes);
+        public byte[] DecryptRandomMessage(string privateKey, byte[] encryptMassageBytes)
+        {
+            byte[] decryptMassageBytes = _cryptoService.Decrypt(privateKey, encryptMassageBytes);
 
             return decryptMassageBytes;
         }

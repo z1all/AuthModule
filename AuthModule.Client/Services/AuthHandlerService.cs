@@ -12,6 +12,8 @@ namespace AuthModule.Client.Services
 
         public bool Auth(NetworkStream stream)
         {
+            string privateKey = GetCurrentPrivateKey();
+
             string publicKey = _authClientService.GetCurrentPublicKey();
             stream.WriteString(publicKey);
 
@@ -23,7 +25,7 @@ namespace AuthModule.Client.Services
             }
 
             byte[] encryptMassageBytes = stream.ReadBytes(1024);
-            byte[] decryptMassageBytes = _authClientService.DecryptRandomMessage(encryptMassageBytes);
+            byte[] decryptMassageBytes = _authClientService.DecryptRandomMessage(privateKey, encryptMassageBytes);
             stream.WriteBytes(decryptMassageBytes);
 
             int authStatus = stream.ReadByte();
@@ -37,6 +39,25 @@ namespace AuthModule.Client.Services
                 Console.WriteLine("Успешная аутентификация.");
                 return true;
             }
+        }
+
+        private string GetCurrentPrivateKey()
+        {
+            do
+            {
+                Console.WriteLine("Введите passphrase от приватного ключа:");
+                string? passphrase = Console.ReadLine();
+
+                if (_authClientService.TryGetCurrentPrivateKey(passphrase, out string privateKey))
+                {
+                    return privateKey;
+                }
+                else
+                {
+                    Console.WriteLine("Неверный passphrase");
+                }
+            }
+            while (true);
         }
     }
 }
