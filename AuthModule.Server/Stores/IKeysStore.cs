@@ -1,4 +1,4 @@
-﻿namespace AuthModule.Server.Store
+﻿namespace AuthModule.Server.Stores
 {
     internal interface IKeysStore
     {

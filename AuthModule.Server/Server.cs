@@ -9,11 +9,11 @@ namespace AuthModule.Server
     internal class Server
     {
         private readonly TcpListener _server;
-        private readonly HandlerService _handlerService;
+        private readonly HandlerServerService _handlerService;
 
         private bool _listening = true;
 
-        public Server(IOptions<ServerOptions> options, HandlerService handlerService)
+        public Server(IOptions<ServerOptions> options, HandlerServerService handlerService)
         {
             ServerOptions serverOptions = options.Value;
             _handlerService = handlerService;

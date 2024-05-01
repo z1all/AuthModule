@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace AuthModule.Server.Store
+namespace AuthModule.Server.Stores
 {
     internal class FileKeysStore : IKeysStore
     {

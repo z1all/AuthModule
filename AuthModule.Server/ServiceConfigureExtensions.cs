@@ -2,8 +2,8 @@
 using Microsoft.Extensions.DependencyInjection;
 using AuthModule.Server.Configurations;
 using AuthModule.Server.Services;
-using AuthModule.Server.Store;
 using AuthModule.Server.Stores;
+using AuthModule.Server.Services.Interfaces;
 using CryptoModule;
 
 namespace AuthModule.Server
@@ -25,9 +25,14 @@ namespace AuthModule.Server
         private static void AddServices(this IServiceCollection services)
         {
             services.AddSingleton<Server>();
-            services.AddSingleton<HandlerService>();
+            services.AddSingleton<HandlerServerService>();
+            services.AddSingleton<IAuthHandlerService, AuthHandlerService>();
+            services.AddSingleton<IPublicKeyHandlerService, PublicKeyHandlerService>();
+
             services.AddSingleton<IKeysStore, FileKeysStore>();
             services.AddSingleton<IProfileStore, FileProfileStore>();
+            services.AddSingleton<IAuthServerService, AuthServerService>();
+            
             services.AddCryptoService();
         }
 
