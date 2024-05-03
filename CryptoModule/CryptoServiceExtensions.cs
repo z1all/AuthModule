@@ -8,7 +8,7 @@ namespace CryptoModule
     {
         public static void AddCryptoService(this IServiceCollection services)
         {
-            services.AddSingleton<IAsymmetricCryptoService, RSACryptoService>();
+            services.AddSingleton<IAsymmetricCryptoService, ECCCryptoService>();
             services.AddSingleton<ISymmetricCryptoService, AesCryptoService>();
         }
     }

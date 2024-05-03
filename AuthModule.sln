@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthModule.Client", "AuthMo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CryptoModule", "CryptoModule\CryptoModule.csproj", "{3BC5E78B-59BC-496F-A8DB-4B37885E72DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "System.Net.Sockets.Extension", "NetworkStream.Extension\System.Net.Sockets.Extension.csproj", "{2F9F189E-62A8-4BD6-8D95-523A0690E23E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "System.Net.Sockets.Extension", "NetworkStream.Extension\System.Net.Sockets.Extension.csproj", "{2F9F189E-62A8-4BD6-8D95-523A0690E23E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCryptoMudule", "TestCryptoMudule\TestCryptoMudule.csproj", "{2C11E155-BBC7-4E14-AA33-9CB5EF1B98F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{2F9F189E-62A8-4BD6-8D95-523A0690E23E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F9F189E-62A8-4BD6-8D95-523A0690E23E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F9F189E-62A8-4BD6-8D95-523A0690E23E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2C11E155-BBC7-4E14-AA33-9CB5EF1B98F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2C11E155-BBC7-4E14-AA33-9CB5EF1B98F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2C11E155-BBC7-4E14-AA33-9CB5EF1B98F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2C11E155-BBC7-4E14-AA33-9CB5EF1B98F7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

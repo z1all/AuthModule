@@ -11,7 +11,7 @@ namespace CryptoModule.Services
             {
                 return privateKey;
             }
-
+            
             using (Aes aesAlg = Aes.Create())
             { 
                 byte[] salt = GenerateRandomSalt();
