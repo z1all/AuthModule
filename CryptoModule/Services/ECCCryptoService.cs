@@ -27,9 +27,16 @@ namespace CryptoModule.Services
                 BigInteger y1 = BigInteger.Parse(coordinates[0]);
                 BigInteger y2 = BigInteger.Parse(coordinates[1]);
 
-                BigInteger modInverse = ModInverse(BigInteger.Pow(y1, a), p);
-                BigInteger mA = (modInverse * y2) % p;
+                // уравнение  y1^(-a) * y2 (mod p)
+                //BigInteger modInverse = ModInverse(BigInteger.Pow(y1, a), p);
+                //BigInteger y1ModK = modInverse % p;
 
+                BigInteger y1ModK = ModInverse(BigInteger.ModPow(y1, a, p), p);
+                BigInteger y2ModK = y2 % p;
+                BigInteger mA = (y1ModK * y2ModK) % p;
+
+                //BigInteger modInverse = ModInverse(BigInteger.Pow(y1, a), p);
+                //BigInteger mA = (modInverse * y2) % p;
                 decryptedMessage.AddRange(DecodingBlock(mA));
             }
 
@@ -47,7 +54,7 @@ namespace CryptoModule.Services
             BigInteger g = BigInteger.Parse(curve[1]);
             BigInteger K = BigInteger.Parse(curve[2]);
 
-            List<BigInteger> codingBlocks = CodingBlocks(data, 16);
+            List<BigInteger> codingBlocks = CodingBlocks(data, 18);
 
             int b = 1000 + _random.Next() % 1000;
             StringBuilder stringBuilder = new StringBuilder();
@@ -84,7 +91,7 @@ namespace CryptoModule.Services
         public Keys MakeKeysPair()
         {
             // private 
-            int a = 1000 + _random.Next() % 10_000;
+            int a = 1_000_000 + _random.Next() % 100_000;
 
             // public
             BigInteger p = BigInteger.Parse("00FFFFF0001000000000000000FFFFFFFF", NumberStyles.HexNumber);
